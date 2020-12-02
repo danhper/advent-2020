@@ -18,6 +18,8 @@ dependencies:
 - filepath
 - formatting
 - split
+- MissingH
+- text
 
 library:
   source-dirs: src
