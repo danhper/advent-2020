@@ -7,18 +7,19 @@ testSolution :: FilePath -> IO ()
 testSolution solutionPath = do
   expected <- readFile solutionPath
   let (Just problem) = stripPrefix "day" (dropExtension (takeFileName solutionPath))
-  output <- run (read problem)
+  output <- run (read problem) False
   putStrLn ""
   if expected == output
-    then putStrLn ("\x1b[0;32m✔ Day " ++ problem ++ " passed\x1b[0m\n")
+    then putStrLn ("\x1b[0;32m✔ Day " ++ problem ++ " passed\x1b[0m")
     else
       putStrLn
         ( "\x1b[0;31m✗ Day " ++ problem ++ " failed:\n"
             ++ output
             ++ "!=\n"
             ++ expected
-            ++ "\x1b[0m\n"
+            ++ "\x1b[0m"
         )
+
 main :: IO ()
 main = do
   let solutionsDir = "data/solutions"

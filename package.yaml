@@ -16,10 +16,10 @@ dependencies:
 - containers
 - directory
 - filepath
-- formatting
 - split
 - MissingH
 - text
+- array
 
 library:
   source-dirs: src

@@ -1,7 +1,5 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Day2
-  ( run,
+  ( solve,
   )
 where
 
@@ -10,8 +8,7 @@ import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
 import Data.String.Utils (strip)
 import qualified Data.Text as T
-import Formatting (formatToString, int, (%))
-import Utils (inputFile)
+import Utils (formatIntResults)
 
 type CharCount = M.Map Char Int
 
@@ -21,11 +18,28 @@ data Rule = Rule
     right :: Int
   }
 
+instance Read Rule where
+  readsPrec _ rawRule =
+    [(Rule {letter = letter, left = left, right = right}, "")]
+    where
+      [occurences, [letter]] = splitOn " " rawRule
+      [left, right] = map read (splitOn "-" occurences)
+
 data PasswordLine = PasswordLine
   { password :: T.Text,
     charCount :: CharCount,
     rule :: Rule
   }
+
+instance Read PasswordLine where
+  readsPrec _ line = [(passwordLine, "")]
+    where
+      passwordLine =
+        PasswordLine {password = password, rule = rule, charCount = charCount}
+      [rawRule, rawPassword] = splitOn ":" line
+      password = T.pack (strip rawPassword)
+      rule = read (strip rawRule)
+      charCount = countChars password
 
 countChars :: T.Text -> CharCount
 countChars = T.foldr insert M.empty
@@ -40,36 +54,20 @@ checkRule1 PasswordLine {charCount = charCount, rule = rule} =
     occurences = fromMaybe 0 $ M.lookup (letter rule) charCount
 
 checkRule2 :: PasswordLine -> Bool
-checkRule2 PasswordLine {password = password, rule = rule} = xor leftMatch rightMatch
+checkRule2 PasswordLine {password = password, rule = rule} =
+  xor
+    leftMatch
+    rightMatch
   where
     Rule {letter = letter, left = left, right = right} = rule
     leftMatch = T.index password (left - 1) == letter
     rightMatch = T.index password (right - 1) == letter
     xor a b = (a || b) && not (a && b)
 
-parseRule :: String -> Rule
-parseRule rawRule = Rule {letter = letter, left = left, right = right}
+solveDay2 :: [PasswordLine] -> (Int, Int)
+solveDay2 passwords = (count checkRule1, count checkRule2)
   where
-    [occurences, [letter]] = splitOn " " rawRule
-    [left, right] = map read (splitOn "-" occurences)
+    count rule = length $ filter rule passwords
 
-parseLine :: String -> PasswordLine
-parseLine line = PasswordLine {password = password, rule = rule, charCount = charCount}
-  where
-    [rawRule, rawPassword] = splitOn ":" line
-    password = T.pack (strip rawPassword)
-    rule = parseRule (strip rawRule)
-    charCount = countChars password
-
-solveDay2 :: [String] -> (Int, Int)
-solveDay2 rawPasswords = (answer1, answer2)
-  where
-    parsedPasswords = map parseLine rawPasswords
-    answer1 = length $ filter checkRule1 parsedPasswords
-    answer2 = length $ filter checkRule2 parsedPasswords
-
-run :: IO String
-run = do
-  passwords <- lines <$> readFile (inputFile "day2.txt")
-  let (part1, part2) = solveDay2 passwords
-  return $ formatToString ("Part 1: " % int % "\nPart 2: " % int % "\n") part1 part2
+solve :: String -> String
+solve content = uncurry formatIntResults . solveDay2 $ map read (lines content)

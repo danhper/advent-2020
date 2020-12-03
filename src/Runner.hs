@@ -5,7 +5,16 @@ where
 
 import qualified Day1
 import qualified Day2
+import qualified Day3
+import Utils (problemInputFile)
 
-run :: Int -> IO String
-run 1 = Day1.run
-run 2 = Day2.run
+solvers :: [String -> String]
+solvers = [Day1.solve, Day2.solve, Day3.solve]
+
+run :: Int -> Bool -> IO String
+run n isSample
+  | n > length solvers = return $ "Problem " ++ show n ++ " not solved"
+  | otherwise = do
+    content <- readFile $ problemInputFile n isSample
+    let solver = solvers !! (n - 1)
+    return $ solver content

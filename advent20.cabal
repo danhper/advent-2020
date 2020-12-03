@@ -26,6 +26,7 @@ library
   exposed-modules:
       Day1
       Day2
+      Day3
       Runner
       Utils
   other-modules:
@@ -34,11 +35,11 @@ library
       src
   build-depends:
       MissingH
+    , array
     , base >=4.7 && <5
     , containers
     , directory
     , filepath
-    , formatting
     , split
     , text
   default-language: Haskell2010
@@ -53,11 +54,11 @@ executable advent20-exe
   build-depends:
       MissingH
     , advent20
+    , array
     , base >=4.7 && <5
     , containers
     , directory
     , filepath
-    , formatting
     , split
     , text
   default-language: Haskell2010
@@ -73,11 +74,11 @@ test-suite advent20-test
   build-depends:
       MissingH
     , advent20
+    , array
     , base >=4.7 && <5
     , containers
     , directory
     , filepath
-    , formatting
     , split
     , text
   default-language: Haskell2010
