@@ -1,7 +1,6 @@
-module Day3
-  ( solve,
-  )
-where
+module Day3 (
+    solve,
+) where
 
 import qualified Data.Array as A
 import Utils (formatIntResults)
@@ -9,9 +8,9 @@ import Utils (formatIntResults)
 data Cell = Empty | Tree deriving (Show, Eq)
 
 instance Read Cell where
-  readsPrec _ ('.' : xs) = [(Empty, xs)]
-  readsPrec _ ('#' : xs) = [(Tree, xs)]
-  readsPrec _ _ = []
+    readsPrec _ ('.' : xs) = [(Empty, xs)]
+    readsPrec _ ('#' : xs) = [(Tree, xs)]
+    readsPrec _ _ = []
 
 newtype Grid = Grid (A.Array (Int, Int) Cell) deriving (Show)
 
@@ -25,13 +24,13 @@ get :: Grid -> Int -> Int -> Cell
 get grid@(Grid arr) row col = (A.!) arr (row, col `mod` colsCount grid)
 
 instance Read Grid where
-  readsPrec _ raw = [(Grid (A.array bounds result), "")]
-    where
-      rows = lines raw
-      bounds = ((0, 0), (length rows - 1, length (head rows) - 1))
-      result = zip [0 ..] rows >>= readLine
-      readLine (row, line) = zipWith (createCell row) [0 ..] line
-      createCell row col char = ((row, col), read [char])
+    readsPrec _ raw = [(Grid (A.array bounds result), "")]
+      where
+        rows = lines raw
+        bounds = ((0, 0), (length rows - 1, length (head rows) - 1))
+        result = zip [0 ..] rows >>= readLine
+        readLine (row, line) = zipWith (createCell row) [0 ..] line
+        createCell row col char = ((row, col), read [char])
 
 computeCells :: Grid -> Int -> Int -> [Cell]
 computeCells grid stepDown stepRight = zipWith (get grid) rows cols

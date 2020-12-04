@@ -1,14 +1,13 @@
-module Day1
-  ( solve,
-  )
-where
+module Day1 (
+    solve,
+) where
 
 import Data.List (find)
 import qualified Data.Set as S
-import Utils
-  ( formatIntResults,
+import Utils (
+    formatIntResults,
     parseIntegersList,
-  )
+ )
 
 computeAnswer :: [Int] -> (Int, Int)
 computeAnswer numbers = (a1 * b1, a2 * b2 * (target - (a2 + b2)))
@@ -17,7 +16,7 @@ computeAnswer numbers = (a1 * b1, a2 * b2 * (target - (a2 + b2)))
     Just (a1, b1, _) = find (\(_, _, v) -> v == target) cartesian
     numbersSet = foldr S.insert S.empty numbers
     Just (a2, b2, _) =
-      find (\(_, _, v) -> S.member (target - v) numbersSet) cartesian
+        find (\(_, _, v) -> S.member (target - v) numbersSet) cartesian
     target = 2020
 
 solve :: String -> String

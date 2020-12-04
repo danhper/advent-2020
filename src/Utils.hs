@@ -1,13 +1,10 @@
-{-# LANGUAGE OverloadedStrings #-}
-
-module Utils
-  ( parseIntegersList,
-    inputFile,
-    problemInputFile,
-    formatIntResult,
-    formatIntResults,
-  )
-where
+module Utils (
+  parseIntegersList,
+  inputFile,
+  problemInputFile,
+  formatIntResult,
+  formatIntResults,
+) where
 
 import System.FilePath ((</>))
 
@@ -17,10 +14,12 @@ parseIntegersList = map read . lines
 inputFile :: FilePath -> FilePath
 inputFile filename = "data/inputs" </> filename
 
-problemInputFile :: Int -> Bool -> FilePath
-problemInputFile n isSample = inputFile $ "day" ++ show n ++ suffix ++ ".txt"
-  where
-    suffix = if isSample then "-sample" else ""
+problemInputFile :: Int -> Maybe String -> FilePath
+problemInputFile n sample = inputFile $ "day" ++ show n ++ suffix ++ ".txt"
+ where
+  suffix = case sample of
+    Nothing -> ""
+    Just v -> "-sample" ++ v
 
 formatIntResult :: String -> Int -> String
 formatIntResult prefix value = prefix ++ ": " ++ show value ++ "\n"
