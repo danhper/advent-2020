@@ -15,7 +15,8 @@ parseRule rawRule = (unwords (take 2 tokens), M.fromList (parseSubRules rawRules
     rawRules = map words $ splitOn ", " $ unwords $ drop 4 tokens
     parseSubRules [] = []
     parseSubRules ["no" : _] = []
-    parseSubRules ((number : color1 : color2 : _) : xs) = (unwords [color1, color2], read number) : parseSubRules xs
+    parseSubRules ((number : color1 : color2 : _) : xs) =
+        (unwords [color1, color2], read number) : parseSubRules xs
 
 expandRules :: Rules -> Rules
 expandRules rules = M.map computeNewRules rules

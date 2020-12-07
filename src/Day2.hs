@@ -53,15 +53,11 @@ checkRule1 PasswordLine{charCount = charCount, rule = rule} =
     occurences = fromMaybe 0 $ M.lookup (letter rule) charCount
 
 checkRule2 :: PasswordLine -> Bool
-checkRule2 PasswordLine{password = password, rule = rule} =
-    xor
-        leftMatch
-        rightMatch
+checkRule2 PasswordLine{password = password, rule = rule} = leftMatch /= rightMatch
   where
     Rule{letter = letter, left = left, right = right} = rule
     leftMatch = T.index password (left - 1) == letter
     rightMatch = T.index password (right - 1) == letter
-    xor a b = (a || b) && not (a && b)
 
 solveDay2 :: [PasswordLine] -> (Int, Int)
 solveDay2 passwords = (count checkRule1, count checkRule2)
