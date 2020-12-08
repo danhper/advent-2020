@@ -4,9 +4,11 @@ module Utils (
   problemInputFile,
   formatIntResult,
   formatIntResults,
+  readInt,
 ) where
 
 import System.FilePath ((</>))
+import Text.Read (readMaybe)
 
 parseIntegersList :: String -> [Int]
 parseIntegersList = map read . lines
@@ -26,3 +28,7 @@ formatIntResult prefix value = prefix ++ ": " ++ show value ++ "\n"
 
 formatIntResults :: Int -> Int -> String
 formatIntResults a b = formatIntResult "Part 1" a ++ formatIntResult "Part 2" b
+
+readInt :: String -> Maybe Int
+readInt ('+' : value) = readMaybe value
+readInt value = readMaybe value

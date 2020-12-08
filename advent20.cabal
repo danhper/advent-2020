@@ -31,6 +31,7 @@ library
       Day5
       Day6
       Day7
+      Day8
       Runner
       Utils
   other-modules:
@@ -44,6 +45,7 @@ library
     , containers
     , directory
     , filepath
+    , mtl
     , parsec
     , split
     , text
@@ -64,6 +66,7 @@ executable advent20-exe
     , containers
     , directory
     , filepath
+    , mtl
     , parsec
     , split
     , text
@@ -85,6 +88,7 @@ test-suite advent20-test
     , containers
     , directory
     , filepath
+    , mtl
     , parsec
     , split
     , text

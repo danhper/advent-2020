@@ -9,6 +9,7 @@ import qualified Day4
 import qualified Day5
 import qualified Day6
 import qualified Day7
+import qualified Day8
 import Utils (problemInputFile)
 
 solvers :: [String -> String]
@@ -20,6 +21,7 @@ solvers =
   , Day5.solve
   , Day6.solve
   , Day7.solve
+  , Day8.solve
   ]
 
 run :: Int -> Maybe String -> IO String

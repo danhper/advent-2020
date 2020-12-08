@@ -21,6 +21,7 @@ dependencies:
 - text
 - array
 - parsec
+- mtl
 
 library:
   source-dirs: src
