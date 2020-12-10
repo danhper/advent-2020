@@ -3,6 +3,7 @@ module Runner (
 ) where
 
 import qualified Day1
+import qualified Day10
 import qualified Day2
 import qualified Day3
 import qualified Day4
@@ -24,6 +25,7 @@ solvers =
   , Day7.solve
   , Day8.solve
   , Day9.solve
+  , Day10.solve
   ]
 
 run :: Int -> Maybe String -> IO String
