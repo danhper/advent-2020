@@ -14,7 +14,7 @@ computeAnswer numbers = (a1 * b1, a2 * b2 * (target - (a2 + b2)))
   where
     cartesian = [(x, y, x + y) | x <- numbers, y <- numbers]
     Just (a1, b1, _) = find (\(_, _, v) -> v == target) cartesian
-    numbersSet = foldr S.insert S.empty numbers
+    numbersSet = S.fromList numbers
     Just (a2, b2, _) =
         find (\(_, _, v) -> S.member (target - v) numbersSet) cartesian
     target = 2020

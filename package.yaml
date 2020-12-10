@@ -22,6 +22,8 @@ dependencies:
 - array
 - parsec
 - mtl
+- multiset
+- deque
 
 library:
   source-dirs: src

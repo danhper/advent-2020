@@ -32,6 +32,7 @@ library
       Day6
       Day7
       Day8
+      Day9
       Runner
       Utils
   other-modules:
@@ -43,9 +44,11 @@ library
     , array
     , base >=4.7 && <5
     , containers
+    , deque
     , directory
     , filepath
     , mtl
+    , multiset
     , parsec
     , split
     , text
@@ -64,9 +67,11 @@ executable advent20-exe
     , array
     , base >=4.7 && <5
     , containers
+    , deque
     , directory
     , filepath
     , mtl
+    , multiset
     , parsec
     , split
     , text
@@ -86,9 +91,11 @@ test-suite advent20-test
     , array
     , base >=4.7 && <5
     , containers
+    , deque
     , directory
     , filepath
     , mtl
+    , multiset
     , parsec
     , split
     , text
