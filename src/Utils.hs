@@ -5,6 +5,7 @@ module Utils (
   formatIntResult,
   formatIntResults,
   readInt,
+  fixedPoint
 ) where
 
 import System.FilePath ((</>))
@@ -32,3 +33,6 @@ formatIntResults a b = formatIntResult "Part 1" a ++ formatIntResult "Part 2" b
 readInt :: String -> Maybe Int
 readInt ('+' : value) = readMaybe value
 readInt value = readMaybe value
+
+fixedPoint :: Eq t => (t -> t) -> t -> t
+fixedPoint f x = let x' = f x in if x == x' then x else fixedPoint f x'

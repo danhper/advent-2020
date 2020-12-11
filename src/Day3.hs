@@ -2,7 +2,7 @@ module Day3 (
     solve,
 ) where
 
-import qualified Data.Array as A
+import qualified Grid as G
 import Utils (formatIntResults)
 
 data Cell = Empty | Tree deriving (Show, Eq)
@@ -12,33 +12,13 @@ instance Read Cell where
     readsPrec _ ('#' : xs) = [(Tree, xs)]
     readsPrec _ _ = []
 
-newtype Grid = Grid (A.Array (Int, Int) Cell) deriving (Show)
-
-rowsCount :: Grid -> Int
-rowsCount (Grid arr) = (fst . snd) (A.bounds arr) + 1
-
-colsCount :: Grid -> Int
-colsCount (Grid arr) = (snd . snd) (A.bounds arr) + 1
-
-get :: Grid -> Int -> Int -> Cell
-get grid@(Grid arr) row col = (A.!) arr (row, col `mod` colsCount grid)
-
-instance Read Grid where
-    readsPrec _ raw = [(Grid (A.array bounds result), "")]
-      where
-        rows = lines raw
-        bounds = ((0, 0), (length rows - 1, length (head rows) - 1))
-        result = zip [0 ..] rows >>= readLine
-        readLine (row, line) = zipWith (createCell row) [0 ..] line
-        createCell row col char = ((row, col), read [char])
-
-computeCells :: Grid -> Int -> Int -> [Cell]
-computeCells grid stepDown stepRight = zipWith (get grid) rows cols
+computeCells :: G.Grid Cell -> Int -> Int -> [Cell]
+computeCells grid stepDown stepRight = zipWith (G.get grid) rows cols
   where
-    rows = [0, stepDown .. rowsCount grid - 1]
+    rows = [0, stepDown .. G.rowsCount grid - 1]
     cols = [0, stepRight ..]
 
-countTrees :: Grid -> [(Int, Int)] -> [Int]
+countTrees :: G.Grid Cell -> [(Int, Int)] -> [Int]
 countTrees grid = map countTrees_
   where
     countTrees_ = length . filter (== Tree) . computeCells_
