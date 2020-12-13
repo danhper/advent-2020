@@ -45,4 +45,6 @@ map :: (a -> a) -> Grid a -> Grid a
 map f (Grid arr) = Grid $ A.array (A.bounds arr) $ P.map (second f) (A.assocs arr)
 
 mapi :: (((Int, Int), a) -> a) -> Grid a -> Grid a
-mapi f (Grid arr) = Grid $ A.array (A.bounds arr) $ P.map (\(i, v) -> (i, f (i, v))) (A.assocs arr)
+mapi f (Grid arr) = Grid $ A.array (A.bounds arr) $ P.map f' (A.assocs arr)
+  where
+    f' (i, v) = (i, f (i, v))

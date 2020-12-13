@@ -2,9 +2,7 @@ module Day12 (
     solve,
 ) where
 
-import Utils (
-    formatIntResults,
- )
+import Utils (formatIntResults)
 
 import Control.Monad.State (State, execState, gets, modify)
 import Text.Read (readMaybe)
