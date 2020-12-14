@@ -26,15 +26,13 @@ egcd a b = (t, s - q * t)
     (s, t) = egcd b r
     (q, r) = a `quotRem` b
 
-modInv :: Int -> Int -> Int
-modInv a b = fst $ egcd a b
-
 chineseRemainder :: [Int] -> [Int] -> Int
-chineseRemainder residues modulii = f $ zipWith modInv crtModulii modulii
+chineseRemainder residues modulii = result `mod` modProduct
   where
-    f = (`mod` modPI) . sum . zipWith (*) crtModulii . zipWith (*) residues
-    modPI = product modulii
-    crtModulii = (modPI `div`) <$> modulii
+    modProduct = product modulii
+    crtModulii = (modProduct `div`) <$> modulii
+    bezouts = zipWith ((fst .) . egcd) crtModulii modulii
+    result = sum $ zipWith3 (\a b c -> a * b * c) crtModulii residues bezouts
 
 solvePart2 :: String -> Int
 solvePart2 content = chineseRemainder a n
