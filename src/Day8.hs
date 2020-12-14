@@ -7,7 +7,7 @@ import qualified Data.Map as M
 import qualified Data.Set as S
 import Text.Read (readMaybe)
 
-import Utils (formatIntResults, readInt)
+import Utils (formatIntResults, readSignedInt)
 
 data Instruction = Nop Int | Acc Int | Jmp Int deriving (Show)
 
@@ -17,9 +17,9 @@ instance Read Instruction where
     readsPrec _ rawInstr = maybe [] (\x -> [(x, unwords xs)]) $ parseInstr instrName value
       where
         (instrName : value : xs) = words rawInstr
-        parseInstr "nop" _ = Nop <$> readInt value
-        parseInstr "jmp" value = Jmp <$> readInt value
-        parseInstr "acc" value = Acc <$> readInt value
+        parseInstr "nop" _ = Nop <$> readSignedInt value
+        parseInstr "jmp" value = Jmp <$> readSignedInt value
+        parseInstr "acc" value = Acc <$> readSignedInt value
         parseInstr _ _ = Nothing
 
 newtype Program = Program (M.Map Int Instruction) deriving (Show)
