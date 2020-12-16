@@ -9,7 +9,6 @@ import Utils (formatIntResults)
 import Data.List (isPrefixOf)
 import qualified Data.Map as M
 import qualified Data.Set as S
-import Debug.Trace (trace)
 import Text.Megaparsec.Char (alphaNumChar, char, newline, spaceChar, string)
 import qualified Text.Megaparsec.Char.Lexer as L
 
@@ -58,8 +57,8 @@ computeColumns (Tickets rules yours nearby) = computeFinal candidates M.empty
     validTickets = filter (isTicketValid rules) nearby
     columns = map (getColumn validTickets) [0 .. length rules - 1]
     isCandidate allRules column = all (\c -> any (isInRange c) allRules) column
-    getCandidates name rule = S.fromList $ map fst $ filter (isCandidate rule . snd) $ zip [0 ..] columns
-    candidates = M.mapWithKey getCandidates rules
+    getCandidates rule = S.fromList $ map fst $ filter (isCandidate rule . snd) $ zip [0 ..] columns
+    candidates = M.map getCandidates rules
     computeFinal cands final
         | null cands = final
         | otherwise = computeFinal newCands (M.union final determined)

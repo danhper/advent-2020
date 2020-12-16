@@ -85,10 +85,14 @@ parsePassport rawPassport =
     parseValue' Nothing _ = Left "key missing"
     parseValue' (Just value) parseFunc = parseFunc value
 
-passports = sepEndBy passport (try (newline >> newline))
-passport = M.fromList <$> sepEndBy field (try fieldSep)
-field = (,) <$> many1 letter <* char ':' <*> many (alphaNum <|> char '#')
-fieldSep = (space <|> newline) >> lookAhead (noneOf "\n")
+parseInput :: String -> [RawPassport]
+parseInput content = result
+  where
+    Right result = parse passports "(failed)" content
+    passports = sepEndBy passport (try (newline >> newline))
+    passport = M.fromList <$> sepEndBy field (try fieldSep)
+    field = (,) <$> many1 letter <* char ':' <*> many (alphaNum <|> char '#')
+    fieldSep = (space <|> newline) >> lookAhead (noneOf "\n")
 
 checkPassport :: RawPassport -> Bool
 checkPassport passport = null (S.difference requiredKeys keys)
@@ -99,7 +103,7 @@ checkPassport passport = null (S.difference requiredKeys keys)
 solve :: String -> String
 solve content = formatIntResults part1 part2
   where
-    Right passportsList = parse passports "(failed)" content
+    passportsList = parseInput content
     part1 = length $ filter checkPassport passportsList
     parsedPassports = map parsePassport passportsList
     part2 = length $ filter isRight parsedPassports
