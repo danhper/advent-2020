@@ -2,15 +2,11 @@ module Day17 (
     solve,
 ) where
 
-import Control.Arrow ((***))
-import qualified Data.Map as M
-import Data.Ord (comparing)
-import Data.Tuple.Utils (dup)
+import qualified Data.Set as S
 import qualified Grid as G
 import Utils (formatIntResults)
 
 type Point = [Int]
-data GridND = GridND {n :: Int, points :: M.Map Point Bool} deriving (Show)
 newtype BoolCell = BoolCell Bool deriving (Show, Eq) -- for custom Read instance
 
 instance Read BoolCell where
@@ -18,36 +14,29 @@ instance Read BoolCell where
     readsPrec _ ('.' : xs) = [(BoolCell False, xs)]
     readsPrec _ _ = []
 
-parseInitialGrid :: Int -> String -> GridND
-parseInitialGrid n content = GridND n $ M.fromList $ map toND elements2D
+parseInitialGrid :: Int -> String -> S.Set Point
+parseInitialGrid n content = S.fromList $ map toND elements2D
   where
-    elements2D = G.assocs $ read content
-    toND ((row, col), BoolCell b) = ([col, row] ++ replicate (n - 2) 0, b)
+    elements2D = filter (\(_, BoolCell b) -> b) $ G.assocs $ read content
+    toND ((row, col), _) = [col, row] ++ replicate (n - 2) 0
 
-nextGrid :: GridND -> GridND
-nextGrid (GridND n points) = GridND n $ M.fromList $ zip nextPoints (repeat False)
+nextGrid :: S.Set Point -> S.Set Point
+nextGrid points = S.filter nextActive nextPoints
   where
-    coords = M.keys points
-    bounds = [(minimum *** maximum) $ dup $ map (!! n) (M.keys points) | n <- [0 .. n - 1]]
-    nextPoints = sequence [[vmin - 1 .. vmax + 1] | (vmin, vmax) <- bounds]
+    nextPoints = S.union points $ S.fromList (concatMap getNeighborsCoords points)
+    nextActive point = activeCount == 3 || S.member point points && activeCount == 2
+      where
+        activeCount = length $ filter (`S.member` points) (getNeighborsCoords point)
 
 getNeighborsCoords :: Point -> [Point]
 getNeighborsCoords point = filter (/= point) $ sequence [[v - 1 .. v + 1] | v <- point]
 
-step :: GridND -> GridND
-step grid@(GridND n pts) = GridND n $ M.mapWithKey computeNextState (points $ nextGrid grid)
-  where
-    isActive point = M.findWithDefault False point pts
-    computeNextState point _ = activeCount == 3 || isActive point && activeCount == 2
-      where
-        activeCount = length $ filter isActive (getNeighborsCoords point)
-
-stepN :: Int -> GridND -> GridND
-stepN times grid = foldr (const step) grid [1 .. times]
+stepNS :: Int -> S.Set Point -> S.Set Point
+stepNS times grid = foldr (const nextGrid) grid [1 .. times]
 
 solve :: String -> String
 solve content = formatIntResults part1 part2
   where
-    runSimulation n = length $ M.filter id $ points $ stepN 6 (parseInitialGrid n content)
-    part1 = runSimulation 3
-    part2 = runSimulation 4
+    runSimulationS n = length $ stepNS 6 (parseInitialGrid n content)
+    part1 = runSimulationS 3
+    part2 = runSimulationS 4
