@@ -7,6 +7,7 @@ module Grid (
     elems,
     map,
     mapi,
+    assocs,
 ) where
 
 import Prelude hiding (map)
@@ -31,6 +32,9 @@ inRange (Grid arr) = A.inRange (A.bounds arr)
 
 elems :: Grid a -> [a]
 elems (Grid arr) = A.elems arr
+
+assocs :: Grid a -> [((Int, Int), a)]
+assocs (Grid arr) = A.assocs arr
 
 instance Read a => Read (Grid a) where
     readsPrec _ raw = [(Grid (A.array bounds result), "")]
