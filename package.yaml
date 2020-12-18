@@ -26,6 +26,7 @@ dependencies:
 - multiset
 - deque
 - megaparsec
+- parser-combinators
 
 library:
   source-dirs: src

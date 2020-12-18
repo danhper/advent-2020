@@ -33,6 +33,7 @@ library
       Day15
       Day16
       Day17
+      Day18
       Day2
       Day3
       Day4
@@ -60,6 +61,7 @@ library
     , mtl
     , multiset
     , parsec
+    , parser-combinators
     , split
     , text
     , unordered-containers
@@ -85,6 +87,7 @@ executable advent20-exe
     , mtl
     , multiset
     , parsec
+    , parser-combinators
     , split
     , text
     , unordered-containers
@@ -111,6 +114,7 @@ test-suite advent20-test
     , mtl
     , multiset
     , parsec
+    , parser-combinators
     , split
     , text
     , unordered-containers
