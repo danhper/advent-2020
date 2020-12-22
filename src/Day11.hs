@@ -23,30 +23,30 @@ firstIsOccupied cells = case filter (/= Floor) cells of
     _ -> False
 
 countAdjacentOccupied :: G.Grid Cell -> (Int, Int) -> Int
-countAdjacentOccupied grid (row, col) = length $ filter (== Occupied) adjacentSeatValues
+countAdjacentOccupied grid (x, y) = length $ filter (== Occupied) adjacentSeatValues
   where
-    candidates = [(r, c) | r <- [row - 1 .. row + 1], c <- [col - 1 .. col + 1], not (row == r && col == c)]
+    candidates = [(x', y') | x' <- [x - 1 .. x + 1], y' <- [y - 1 .. y + 1], not (x == x' && y == y')]
     adjacentSeats = filter (G.inRange grid) candidates
-    adjacentSeatValues = map (uncurry $ G.get grid) adjacentSeats
+    adjacentSeatValues = map (\(x, y) -> G.get x y grid) adjacentSeats
 
 countInSightOccuppied :: G.Grid Cell -> (Int, Int) -> Int
-countInSightOccuppied grid (row, col) = length $ filter firstIsOccupied cells
+countInSightOccuppied grid (x, y) = length $ filter firstIsOccupied cells
   where
-    topRows = tail [row, row - 1 .. 0]
-    bottomRows = tail [row, row + 1 .. G.rowsCount grid - 1]
-    leftCols = tail [col, col - 1 .. 0]
-    rightCols = tail [col, col + 1 .. G.colsCount grid - 1]
+    topRows = tail [y, y - 1 .. 0]
+    bottomRows = tail [y, y + 1 .. G.yMax grid]
+    leftCols = tail [x, x - 1 .. 0]
+    rightCols = tail [x, x + 1 .. G.xMax grid]
     positions =
-        [ zip topRows (repeat col) -- top
-        , zip bottomRows (repeat col) -- bottom
-        , zip (repeat row) leftCols -- left
-        , zip (repeat row) rightCols -- right
-        , zip topRows leftCols -- top left
-        , zip topRows rightCols -- top right
-        , zip bottomRows leftCols -- bottom left
-        , zip bottomRows rightCols -- bottom right
+        [ zip (repeat x) topRows -- top
+        , zip (repeat x) bottomRows -- bottom
+        , zip leftCols (repeat y) -- left
+        , zip rightCols (repeat y) -- right
+        , zip leftCols topRows -- top left
+        , zip rightCols topRows -- top right
+        , zip leftCols bottomRows -- bottom left
+        , zip rightCols bottomRows -- bottom right
         ]
-    cells = map (map (uncurry $ G.get grid)) positions
+    cells = map (map (\(x, y) -> G.get x y grid)) positions
 
 applyRule :: (G.Grid Cell -> (Int, Int) -> Int) -> Int -> G.Grid Cell -> ((Int, Int), Cell) -> Cell
 applyRule countOccupied minOccupied grid (position, cell) = case (countOccupied grid position, cell) of

@@ -7,17 +7,11 @@ import qualified Grid as G
 import Utils (formatIntResults)
 
 type Point = [Int]
-newtype BoolCell = BoolCell Bool deriving (Show, Eq) -- for custom Read instance
-
-instance Read BoolCell where
-    readsPrec _ ('#' : xs) = [(BoolCell True, xs)]
-    readsPrec _ ('.' : xs) = [(BoolCell False, xs)]
-    readsPrec _ _ = []
 
 parseInitialGrid :: Int -> String -> S.Set Point
 parseInitialGrid n content = S.fromList $ map toND elements2D
   where
-    elements2D = filter (\(_, BoolCell b) -> b) $ G.assocs $ read content
+    elements2D = filter (\(_, G.BoolCell b) -> b) $ G.assocs $ read content
     toND ((row, col), _) = [col, row] ++ replicate (n - 2) 0
 
 nextGrid :: S.Set Point -> S.Set Point

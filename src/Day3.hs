@@ -13,10 +13,11 @@ instance Read Cell where
     readsPrec _ _ = []
 
 computeCells :: G.Grid Cell -> Int -> Int -> [Cell]
-computeCells grid stepDown stepRight = zipWith (G.get grid) rows cols
+computeCells grid stepDown stepRight = zipWith getCell xs ys
   where
-    rows = [0, stepDown .. G.rowsCount grid - 1]
-    cols = [0, stepRight ..]
+    ys = [0, stepDown .. G.yMax grid]
+    xs = [0, stepRight ..]
+    getCell x y = G.get (x `mod` (G.xMax grid + 1)) y grid
 
 countTrees :: G.Grid Cell -> [(Int, Int)] -> [Int]
 countTrees grid = map countTrees_
