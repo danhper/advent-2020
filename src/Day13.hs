@@ -8,7 +8,7 @@ import Data.List.Split (splitOn)
 import Data.Maybe (fromJust, isJust, mapMaybe)
 import Data.Ord (comparing)
 import Text.Read (readMaybe)
-import Utils (formatIntResults)
+import Utils (formatResults)
 
 solvePart1 :: String -> Int
 solvePart1 content = bus * wait
@@ -43,7 +43,7 @@ solvePart2 content = chineseRemainder a n
     (a, n) = unzip constraints
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     part1 = solvePart1 content
     part2 = solvePart2 content

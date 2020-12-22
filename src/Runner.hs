@@ -14,6 +14,8 @@ import qualified Day17
 import qualified Day18
 import qualified Day19
 import qualified Day2
+import qualified Day20
+import qualified Day21
 import qualified Day3
 import qualified Day4
 import qualified Day5
@@ -44,6 +46,8 @@ solvers =
     , Day17.solve
     , Day18.solve
     , Day19.solve
+    , Day20.solve
+    , Day21.solve
     ]
 
 run :: Int -> Maybe String -> IO String

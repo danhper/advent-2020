@@ -3,7 +3,7 @@ module Day3 (
 ) where
 
 import qualified Grid as G
-import Utils (formatIntResults)
+import Utils (formatResults)
 
 data Cell = Empty | Tree deriving (Show, Eq)
 
@@ -26,7 +26,7 @@ countTrees grid = map countTrees_
     computeCells_ = uncurry (computeCells grid)
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     grid = read content
     [part1] = countTrees grid [(1, 3)]

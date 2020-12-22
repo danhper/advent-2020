@@ -7,7 +7,7 @@ import qualified Data.Map as M
 import qualified Data.Set as S
 import Text.Read (readMaybe)
 
-import Utils (formatIntResults, readSignedInt)
+import Utils (formatResults, readSignedInt)
 
 data Instruction = Nop Int | Acc Int | Jmp Int deriving (Show)
 
@@ -106,7 +106,7 @@ solvePart2 program = findProgram candidateIndices
     runModified index = evalState (runProgram (swapNopAndJmp index program)) initialState
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     program = read content
     (_, part1) = evalState (runProgram program) initialState

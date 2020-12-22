@@ -2,8 +2,8 @@ module Utils (
     parseIntegersList,
     inputFile,
     problemInputFile,
-    formatIntResult,
-    formatIntResults,
+    formatResult,
+    formatResults,
     readSignedInt,
     fixedPoint,
     readBin,
@@ -29,11 +29,11 @@ problemInputFile n sample = inputFile $ "day" ++ show n ++ suffix ++ ".txt"
         Nothing -> ""
         Just v -> "-sample" ++ v
 
-formatIntResult :: String -> Int -> String
-formatIntResult prefix value = prefix ++ ": " ++ show value ++ "\n"
+formatResult :: (Show a) => String -> a -> String
+formatResult prefix value = prefix ++ ": " ++ show value ++ "\n"
 
-formatIntResults :: Int -> Int -> String
-formatIntResults a b = formatIntResult "Part 1" a ++ formatIntResult "Part 2" b
+formatResults :: (Show a, Show b) => a -> b -> String
+formatResults a b = formatResult "Part 1" a ++ formatResult "Part 2" b
 
 readSignedInt :: String -> Maybe Int
 readSignedInt ('+' : value) = readMaybe value

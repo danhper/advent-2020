@@ -6,7 +6,7 @@ import qualified Data.IntMultiSet as MS
 import Data.Maybe (listToMaybe)
 import qualified Deque.Strict as Q
 
-import Utils (formatIntResults, parseIntegersList)
+import Utils (formatResults, parseIntegersList)
 
 findSum :: Int -> MS.IntMultiSet -> Maybe (Int, Int)
 findSum target numbers = transformResult <$> result
@@ -38,7 +38,7 @@ findContiguous target numbers = findContiguous' (tail numbers) (Q.fromConsAndSno
         | otherwise = findContiguous' xs (Q.snoc x seen)
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     numbers = parseIntegersList content
     part1 = findWrongNumber 25 numbers

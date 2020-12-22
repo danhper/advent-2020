@@ -8,7 +8,7 @@ import qualified Data.Map as M
 import qualified Data.Set as S
 import Text.ParserCombinators.Parsec
 import Text.Read (readEither)
-import Utils (formatIntResults)
+import Utils (formatResults)
 
 type RawPassport = M.Map String String
 
@@ -101,7 +101,7 @@ checkPassport passport = null (S.difference requiredKeys keys)
     requiredKeys = S.fromList ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"]
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     passportsList = parseInput content
     part1 = length $ filter checkPassport passportsList

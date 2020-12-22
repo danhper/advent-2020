@@ -5,7 +5,7 @@ module Day14 (
 import qualified Data.Map as M
 import Text.Parsec (Parsec)
 import Text.ParserCombinators.Parsec (digit, many1, parse, string)
-import Utils (formatIntResults, readBin, showBin, showPaddedBin)
+import Utils (formatResults, readBin, showBin, showPaddedBin)
 
 type Memory = M.Map Int Int
 type Mask = M.Map Int Char
@@ -57,7 +57,7 @@ initializeMemoryV2 lines = fst $ foldl processLine (M.empty, []) lines
         locations = map (applyMask index) masks
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     part1 = sum $ M.elems $ initializeMemory $ lines content
     part2 = sum $ M.elems $ initializeMemoryV2 $ lines content

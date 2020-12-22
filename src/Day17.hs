@@ -4,7 +4,7 @@ module Day17 (
 
 import qualified Data.Set as S
 import qualified Grid as G
-import Utils (formatIntResults)
+import Utils (formatResults)
 
 type Point = [Int]
 
@@ -29,7 +29,7 @@ stepNS :: Int -> S.Set Point -> S.Set Point
 stepNS times grid = foldr (const nextGrid) grid [1 .. times]
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     runSimulationS n = length $ stepNS 6 (parseInitialGrid n content)
     part1 = runSimulationS 3

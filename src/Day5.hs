@@ -6,7 +6,7 @@ import Data.List (find)
 import Data.List.Utils (replace)
 import Data.Maybe (fromJust)
 import qualified Data.Set as S
-import Utils (formatIntResults)
+import Utils (formatResults)
 
 parseBinary :: String -> Int
 parseBinary binaryString = parseBinary' (reverse binaryString) 1
@@ -33,7 +33,7 @@ findSeat occupiedSeats = fromJust (find isFree freeSeats)
     isFree seat = S.member (seat + 1) occupiedSeats && S.member (seat - 1) occupiedSeats
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     ticketNumbers = lines content
     ticketIds = map ticketId ticketNumbers

@@ -9,7 +9,7 @@ import qualified Data.Map as M
 import Data.Maybe (isJust, listToMaybe, mapMaybe)
 import Debug.Trace (trace)
 import qualified Grid as G
-import Utils (formatIntResults)
+import Utils (formatResults)
 
 type CameraArray = M.Map Int G.BoolGrid
 
@@ -60,7 +60,7 @@ solvePart1 camArray = map (fst . (final M.!)) points
     points = [0, size - 1, size * (size - 1), size * size - 1]
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     cameraArray = parseArray content
     part1 = product $ solvePart1 cameraArray

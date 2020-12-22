@@ -4,7 +4,7 @@ module Day15 (
 
 import qualified Data.HashMap.Strict as M
 import Data.List.Split (splitOn)
-import Utils (formatIntResults)
+import Utils (formatResults)
 
 type SeenNumbers = M.HashMap Int [Int]
 data GameState = GameState
@@ -48,7 +48,7 @@ initializeState initSeq = initializeState' initSeq initialState
         nextState = state{turn = turn state + 1, lastSpoken = x, numbers = nextNumbers}
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     numbers = map read $ splitOn "," content
     part1 = getSpoken $ runGame 2020 $ initializeState numbers

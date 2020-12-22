@@ -4,7 +4,7 @@ module Day7 (
 
 import Data.List.Split (splitOn)
 import qualified Data.Map as M
-import Utils (formatIntResults)
+import Utils (formatResults)
 
 type Rules = M.Map String (M.Map String Int)
 
@@ -26,7 +26,7 @@ expandRules rules = M.map computeNewRules rules
     computeNewRules subRules = M.unionsWith (+) (subRules : map joinRules (M.toList subRules))
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     rules = expandRules . M.fromList . map parseRule . lines $ content
     part1 = length $ M.filter (M.member "shiny gold") rules

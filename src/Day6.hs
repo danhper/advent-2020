@@ -4,7 +4,7 @@ module Day6 (
 
 import Data.List.Split (splitOn)
 import qualified Data.Map as M
-import Utils (formatIntResults)
+import Utils (formatResults)
 
 data Group = Group
   { answers :: M.Map Char Int
@@ -26,7 +26,7 @@ countAnswers :: Group -> Int
 countAnswers group = length $ M.filter (== participants group) (answers group)
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
  where
   groups = parseLines content
   part1 = sum $ map (M.size . answers) groups

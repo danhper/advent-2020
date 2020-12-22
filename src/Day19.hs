@@ -10,7 +10,7 @@ import Text.Megaparsec (Parsec, choice, lookAhead, many, manyTill, parse, sepBy1
 import Text.Megaparsec.Char (char, newline)
 import Text.Megaparsec.Char.Lexer (decimal)
 import qualified Text.Megaparsec.Char.Lexer as L
-import Utils (formatIntResults)
+import Utils (formatResults)
 
 data Rule = Composed [[Int]] | Terminal String deriving (Show)
 type Rules = M.Map Int Rule
@@ -43,7 +43,7 @@ acceptsInput rules input = any (\(ok, remaining) -> ok && null remaining) result
         processResults (False, remaining) = [(False, remaining)]
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     Right (rules, inputs) = parse inputParser "(input)" content
     part1 = length $ filter (acceptsInput rules) inputs

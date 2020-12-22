@@ -4,7 +4,7 @@ module Day11 (
 
 import Utils (
     fixedPoint,
-    formatIntResults,
+    formatResults,
  )
 
 import qualified Grid as G
@@ -67,7 +67,7 @@ getOccupiedCount :: G.Grid Cell -> Int
 getOccupiedCount grid = length $ filter (== Occupied) (G.elems grid)
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     grid = read content
     part1 = getOccupiedCount $ runSimulation countAdjacentOccupied 4 grid

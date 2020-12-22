@@ -8,7 +8,7 @@ import Data.Void (Void)
 import Text.Megaparsec (MonadParsec (try), Parsec, between, parse, (<|>))
 import Text.Megaparsec.Char (space)
 import qualified Text.Megaparsec.Char.Lexer as L
-import Utils (formatIntResults)
+import Utils (formatResults)
 
 data Expr = Add Expr Expr | Mul Expr Expr | Const Int deriving (Show, Eq)
 
@@ -36,7 +36,7 @@ exprParser table = makeExprParser term table
     number = Const <$> L.lexeme space L.decimal
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     parseExprs table = rights $ map (parse (exprParser table) "(file)") $ lines content
     part1 = sum $ map evalExpr (parseExprs part1Table)

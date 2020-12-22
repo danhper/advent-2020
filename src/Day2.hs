@@ -7,7 +7,7 @@ import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
 import Data.String.Utils (strip)
 import qualified Data.Text as T
-import Utils (formatIntResults)
+import Utils (formatResults)
 
 type CharCount = M.Map Char Int
 
@@ -65,4 +65,4 @@ solveDay2 passwords = (count checkRule1, count checkRule2)
     count rule = length $ filter rule passwords
 
 solve :: String -> String
-solve content = uncurry formatIntResults . solveDay2 $ map read (lines content)
+solve content = uncurry formatResults . solveDay2 $ map read (lines content)

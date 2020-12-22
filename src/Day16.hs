@@ -4,7 +4,7 @@ module Day16 (
 
 import Data.Void (Void)
 import Text.Megaparsec (MonadParsec (try), Parsec, endBy1, many, parse, sepBy1, (<|>))
-import Utils (formatIntResults)
+import Utils (formatResults)
 
 import Data.List (isPrefixOf)
 import qualified Data.Map as M
@@ -74,7 +74,7 @@ solvePart2 tickets = product $ map (yours tickets !!) columnIndices
     columnIndices = M.elems $ M.filterWithKey (const . isDepartureColumn) columnsMapping
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     Right ticketsInfo = parse inputParser "(file)" content
     part1 = sum $ filter (not . isValueValid (rules ticketsInfo)) $ concat (nearby ticketsInfo)

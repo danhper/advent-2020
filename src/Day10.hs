@@ -3,7 +3,7 @@ module Day10 (
 ) where
 
 import Utils (
-    formatIntResults,
+    formatResults,
     parseIntegersList,
  )
 
@@ -28,7 +28,7 @@ arrangements numbers = fst $ computeCombinations numbers M.empty
         handleCandidate (v, newMemo) skip = let (nextV, m) = computeCombinations (drop skip xs) newMemo in (v + nextV, m)
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     numbers = sort $ parseIntegersList content
     allNumbers = 0 : numbers ++ [last numbers + 3]

@@ -2,7 +2,7 @@ module Day12 (
     solve,
 ) where
 
-import Utils (formatIntResults)
+import Utils (formatResults)
 
 import Control.Monad.State (State, execState, gets, modify)
 import Text.Read (readMaybe)
@@ -85,7 +85,7 @@ runWaypointInstruction (Move (Just dir) dist) =
 runWaypointInstruction (Turn angle) = modify (\s -> s{waypoint = turnWaypoint (waypoint s) angle})
 
 solve :: String -> String
-solve content = formatIntResults part1 part2
+solve content = formatResults part1 part2
   where
     instructions = map read $ lines content
     part1 = manhattanDistance $ execState (mapM_ runInstruction instructions) initialState
