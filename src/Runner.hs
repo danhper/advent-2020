@@ -16,6 +16,7 @@ import qualified Day19
 import qualified Day2
 import qualified Day20
 import qualified Day21
+import qualified Day23
 import qualified Day24
 import qualified Day3
 import qualified Day4
@@ -50,7 +51,7 @@ solvers =
     , Day20.solve
     , Day21.solve
     , Day21.solve
-    , Day21.solve
+    , Day23.solve
     , Day24.solve
     ]
 
