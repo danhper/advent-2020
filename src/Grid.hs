@@ -7,9 +7,10 @@ module Grid (
     yMin,
     getCol,
     getRow,
-    Grid (..),
+    Grid,
     BoolGrid,
     inRange,
+    grid,
     elems,
     map,
     mapi,
@@ -146,3 +147,8 @@ getRow :: Int -> Grid a -> [a]
 getRow row grid = elemsInBounds ((xMin grid, row'), (xMax grid, row')) grid
   where
     row' = row `mod` (yMax grid + 1)
+
+grid :: ((Int, Int), (Int, Int)) -> [((Int, Int), a)] -> Grid a
+grid bounds elems = Grid{arr = arr, rotation = 0, flipped = (False, False)}
+  where
+    arr = A.array bounds elems
